@@ -693,11 +693,12 @@ class _HomePageState extends State<HomePage> {
             children: List.generate(_dates.length, (index) {
               final date = _dates[index];
               final isSelected = index == _selectedDateIndex;
-              final dayLabel = index == 0
-                  ? 'Today'
+              final dayLabel = (index == 0
+                  ? 'TODAY'
                   : (index == 1
-                      ? 'Tmrw'
-                      : Formatters.formatDate(date).split(',')[0]);
+                      ? 'TMR'
+                      : Formatters.formatDate(date).split(',')[0]))
+                  .toUpperCase();
 
               return Padding(
                 padding: EdgeInsets.only(
@@ -1082,74 +1083,23 @@ class _HomePageState extends State<HomePage> {
 
     final targetDay = selectedDate.day;
 
-    // Filter movies showing on this specific day
-    var scheduled = allCatalogMovies.where((movie) {
-      final id = movie.id;
+    // 10 premiere blockbusters showing on all days (forming 2 full rows of 5 on desktop)
+    const activeMovieIds = [
+      'mov_deadpool_wolverine',
+      'mov_dune_2',
+      'mov_the_wild_robot',
+      'mov_transformers_one',
+      'mov_inside_out_2',
+      'mov_beetlejuice_2',
+      'mov_twisters',
+      'mov_alien_romulus',
+      'mov_despicable_me_4',
+      'mov_joker_folie',
+    ];
 
-      // 1. Long-run blockbusters showing every day
-      if (id == 'mov_deadpool_wolverine' ||
-          id == 'mov_dune_2' ||
-          id == 'mov_inside_out_2' ||
-          id == 'mov_transformers_one' ||
-          id == 'mov_the_wild_robot') {
-        return true;
-      }
-
-      // 2. Concluding theatrical runs
-      // Beetlejuice Beetlejuice: Final screenings Wed 23 & Thu 24
-      if (id == 'mov_beetlejuice_2') {
-        return dayOffset <= 1 || targetDay <= 24;
-      }
-
-      // Twisters: Final screenings run through Friday 25
-      if (id == 'mov_twisters') {
-        return dayOffset <= 2 || targetDay <= 25;
-      }
-
-      // Alien: Romulus: Final weekend run through Sunday 27
-      if (id == 'mov_alien_romulus') {
-        return dayOffset <= 4 || targetDay <= 27;
-      }
-
-      // Despicable Me 4: Midweek & weekend family special (Wed 23, Thu 24, Sat 26, Sun 27)
-      if (id == 'mov_despicable_me_4') {
-        return dayOffset == 0 ||
-            dayOffset == 1 ||
-            dayOffset == 3 ||
-            dayOffset == 4 ||
-            targetDay == 23 ||
-            targetDay == 24 ||
-            targetDay == 26 ||
-            targetDay == 27;
-      }
-
-      // 3. New releases premiering on future dates
-      // Joker: Folie à Deux releases Mon Sep 28
-      if (id == 'mov_joker_folie') {
-        return dayOffset >= 5 || targetDay >= 28;
-      }
-
-      // 4. Weekend Sneak Previews & Special Screenings
-      // Venom: The Last Dance - Weekend Sneak Preview (Fri 25, Sat 26, Sun 27)
-      if (id == 'mov_venom_last_dance') {
-        return dayOffset == 2 ||
-            dayOffset == 3 ||
-            dayOffset == 4 ||
-            targetDay == 25 ||
-            targetDay == 26 ||
-            targetDay == 27;
-      }
-
-      // Interstellar - 10th Anniversary IMAX Special Weekend (Sat 26, Sun 27)
-      if (id == 'mov_interstellar') {
-        return dayOffset == 3 ||
-            dayOffset == 4 ||
-            targetDay == 26 ||
-            targetDay == 27;
-      }
-
-      return false;
-    }).toList();
+    var scheduled = allCatalogMovies
+        .where((movie) => activeMovieIds.contains(movie.id))
+        .toList();
 
     // Deduplicate by ID
     final seen = <String>{};
@@ -1195,12 +1145,14 @@ class _HomePageState extends State<HomePage> {
         (dayOffset == 0 || targetDay == 23)) {
       return 1;
     }
-    if (movieId == 'mov_venom_last_dance') return 2;
-    if (movieId == 'mov_interstellar') return 3;
-    if (movieId == 'mov_deadpool_wolverine') return 4;
-    if (movieId == 'mov_dune_2') return 5;
-    if (movieId == 'mov_transformers_one') return 6;
-    if (movieId == 'mov_inside_out_2') return 7;
+    if (movieId == 'mov_deadpool_wolverine') return 2;
+    if (movieId == 'mov_dune_2') return 3;
+    if (movieId == 'mov_transformers_one') return 4;
+    if (movieId == 'mov_inside_out_2') return 5;
+    if (movieId == 'mov_beetlejuice_2') return 6;
+    if (movieId == 'mov_twisters') return 7;
+    if (movieId == 'mov_alien_romulus') return 8;
+    if (movieId == 'mov_despicable_me_4') return 9;
     return 10;
   }
 
@@ -1210,29 +1162,29 @@ class _HomePageState extends State<HomePage> {
     int dayOffset,
   ) {
     final id = movie.id;
-    final targetDay = selectedDate.day;
 
     if (id == 'mov_joker_folie') {
-      if (dayOffset == 5 || targetDay == 28) return 'PREMIERES TODAY';
-      return 'NOW SHOWING';
-    }
-    if (id == 'mov_venom_last_dance') {
+      if (dayOffset == 0) return 'PREMIERES TODAY';
+      if (dayOffset == 1) return 'PREMIERES TMR';
       return 'SNEAK PREVIEW';
     }
-    if (id == 'mov_interstellar') {
-      return 'IMAX SPECIAL';
-    }
-    if (id == 'mov_the_wild_robot' && (dayOffset == 0 || targetDay == 23)) {
+    if (id == 'mov_the_wild_robot') {
       return 'NEW RELEASE';
     }
-    if (id == 'mov_beetlejuice_2' && (dayOffset == 1 || targetDay == 24)) {
-      return 'LAST DAY';
+    if (id == 'mov_deadpool_wolverine') {
+      return 'POPULAR';
     }
-    if (id == 'mov_twisters' && (dayOffset == 2 || targetDay == 25)) {
-      return 'FINAL SHOWING';
+    if (id == 'mov_dune_2') {
+      return 'IMAX LASER';
     }
-    if (id == 'mov_alien_romulus' && (dayOffset == 4 || targetDay == 27)) {
-      return 'FINAL SCREENING';
+    if (id == 'mov_beetlejuice_2') {
+      return 'MUST WATCH';
+    }
+    if (id == 'mov_twisters') {
+      return 'FAST SELLING';
+    }
+    if (id == 'mov_alien_romulus') {
+      return 'TOP RATED';
     }
     return null;
   }

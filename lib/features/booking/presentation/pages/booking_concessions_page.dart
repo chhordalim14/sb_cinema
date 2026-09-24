@@ -126,13 +126,14 @@ class _BookingConcessionsPageState extends State<BookingConcessionsPage> {
                 return Column(
                   children: [
                     Expanded(
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: ResponsiveShell.maxContentWidth,
-                          ),
-                          child: SingleChildScrollView(
-                            padding: const EdgeInsets.fromLTRB(20, 14, 20, 30),
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.fromLTRB(20, 14, 20, 30),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: ResponsiveShell.maxContentWidth,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -380,9 +381,11 @@ class _BookingConcessionsPageState extends State<BookingConcessionsPage> {
 
   Widget _buildCategoryPill(ConcessionCategory? category, String label, IconData icon) {
     final isSelected = _selectedCategory == category;
-    return GestureDetector(
-      onTap: () => setState(() => _selectedCategory = category),
-      child: AnimatedContainer(
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () => setState(() => _selectedCategory = category),
+        child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
         decoration: BoxDecoration(
@@ -425,8 +428,9 @@ class _BookingConcessionsPageState extends State<BookingConcessionsPage> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   String _getCategoryTitle(ConcessionCategory cat) {
     switch (cat) {

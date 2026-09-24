@@ -484,8 +484,12 @@ class _LocationsPageState extends State<LocationsPage> {
 
                     // AppFooter for Desktop View
                     if (isDesktop)
-                      const SliverToBoxAdapter(
-                        child: AppFooter(),
+                      const SliverFillRemaining(
+                        hasScrollBody: false,
+                        child: Align(
+                          alignment: Alignment.bottomCenter,
+                          child: AppFooter(),
+                        ),
                       ),
                   ],
                 );

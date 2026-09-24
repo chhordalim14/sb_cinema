@@ -4,39 +4,49 @@ import '../../../../core/constants/app_typography.dart';
 
 class CurvedCinemaScreen extends StatelessWidget {
   final String hallFormat;
+  final double? maxWidth;
 
   const CurvedCinemaScreen({
     super.key,
     this.hallFormat = 'IMAX LASER SCREEN',
+    this.maxWidth,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomPaint(
-          size: const Size(double.infinity, 54),
-          painter: _ScreenPainter(),
-        ),
-        const SizedBox(height: 6),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-          decoration: BoxDecoration(
-            color: AppColors.accentCyan.withValues(alpha: 0.12),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.accentCyan.withValues(alpha: 0.3)),
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth ?? 740),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            children: [
+              CustomPaint(
+                size: const Size(double.infinity, 52),
+                painter: _ScreenPainter(),
+              ),
+              const SizedBox(height: 6),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.accentCyan.withValues(alpha: 0.12),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.accentCyan.withValues(alpha: 0.3)),
+                ),
+                child: Text(
+                  hallFormat.toUpperCase(),
+                  style: AppTypography.labelSmall.copyWith(
+                    color: AppColors.accentCyan,
+                    letterSpacing: 2.2,
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ),
+            ],
           ),
-          child: Text(
-            hallFormat.toUpperCase(),
-            style: AppTypography.labelSmall.copyWith(
-              color: AppColors.accentCyan,
-              letterSpacing: 2.2,
-              fontSize: 10,
-              fontWeight: FontWeight.w800,
-            ),
-          ),
         ),
-      ],
+      ),
     );
   }
 }

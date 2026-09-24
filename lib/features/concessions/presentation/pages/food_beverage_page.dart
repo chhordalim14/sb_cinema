@@ -278,8 +278,12 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                   ),
                 ),
                 if (isDesktop)
-                  const SliverToBoxAdapter(
-                    child: AppFooter(),
+                  const SliverFillRemaining(
+                    hasScrollBody: false,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: AppFooter(),
+                    ),
                   ),
               ],
             ),

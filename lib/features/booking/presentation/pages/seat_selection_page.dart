@@ -15,7 +15,6 @@ import '../widgets/curved_cinema_screen.dart';
 import '../widgets/seat_legend_widget.dart';
 import '../widgets/seat_matrix_widget.dart';
 import 'booking_concessions_page.dart';
-import 'checkout_summary_page.dart';
 
 class SeatSelectionPage extends StatelessWidget {
   final Movie movie;
@@ -83,7 +82,7 @@ class SeatSelectionPage extends StatelessWidget {
 
                 return Column(
                   children: [
-                    const SizedBox(height: 14),
+                    const SizedBox(height: 18),
                     // Curved Projector Screen
                     CurvedCinemaScreen(hallFormat: showtime.experience.displayName),
                     const SizedBox(height: 20),
@@ -95,12 +94,15 @@ class SeatSelectionPage extends StatelessWidget {
                         minScale: 0.8,
                         boundaryMargin: const EdgeInsets.all(20),
                         child: Center(
-                          child: SeatMatrixWidget(
-                            allSeats: state.allSeats,
-                            selectedSeats: state.selectedSeats,
-                            onSeatTapped: (seat) {
-                              context.read<BookingBloc>().add(ToggleSeatEvent(seat));
-                            },
+                          child: Transform.scale(
+                            scale: isDesktop ? 1.25 : 1.0,
+                            child: SeatMatrixWidget(
+                              allSeats: state.allSeats,
+                              selectedSeats: state.selectedSeats,
+                              onSeatTapped: (seat) {
+                                context.read<BookingBloc>().add(ToggleSeatEvent(seat));
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -108,7 +110,7 @@ class SeatSelectionPage extends StatelessWidget {
 
                     // Seat Legend
                     const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 8),
+                      padding: EdgeInsets.symmetric(vertical: 10),
                       child: SeatLegendWidget(),
                     ),
 
@@ -147,21 +149,27 @@ class SeatSelectionPage extends StatelessWidget {
                   child: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: Colors.white),
                 ),
                 const SizedBox(width: 16),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      movie.title,
-                      style: AppTypography.titleMedium.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
-                    ),
-                    Text(
-                      '${showtime.locationName} • ${showtime.hallName} • ${Formatters.formatTime(showtime.startTime)}',
-                      style: AppTypography.bodySmall.copyWith(color: AppColors.primaryLight, fontWeight: FontWeight.w600),
-                    ),
-                  ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: AppTypography.titleMedium.copyWith(color: Colors.white, fontWeight: FontWeight.w800),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        '${showtime.locationName} • ${showtime.hallName} • ${Formatters.formatTime(showtime.startTime)}',
+                        style: AppTypography.bodySmall.copyWith(color: AppColors.primaryLight, fontWeight: FontWeight.w600),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                 ),
-                const Spacer(),
+                const SizedBox(width: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
                   decoration: BoxDecoration(

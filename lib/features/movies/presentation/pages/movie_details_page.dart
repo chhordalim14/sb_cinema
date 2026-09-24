@@ -334,7 +334,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                       ],
                                     ),
                                   ),
-                                  const SizedBox(height: 20),
+                                  const SizedBox(height: 28),
 
                                   // Tab Content View
                                   if (_selectedSegment == 0) ...[
@@ -394,8 +394,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                     // ==================== DETAIL TAB ====================
                                     // Formats and Age Rating
                                     Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
+                                      spacing: 10,
+                                      runSpacing: 10,
                                       crossAxisAlignment:
                                           WrapCrossAlignment.center,
                                       children: [
@@ -411,36 +411,39 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 14),
+                                    const SizedBox(height: 20),
 
                                     // Movie Title
                                     Text(
                                       movie.title,
                                       style: AppTypography.displayMedium.copyWith(
-                                        fontSize: 26,
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w800,
+                                        letterSpacing: -0.4,
                                       ),
                                     ),
                                     if (movie.originalTitle.isNotEmpty &&
                                         movie.originalTitle != movie.title) ...[
-                                      const SizedBox(height: 2),
+                                      const SizedBox(height: 6),
                                       Text(
                                         movie.originalTitle,
                                         style: AppTypography.bodyMedium.copyWith(
                                           color: AppColors.primaryLight,
+                                          fontSize: 15,
                                         ),
                                       ),
                                     ],
-                                    const SizedBox(height: 12),
+                                    const SizedBox(height: 16),
 
                                     // Genres
                                     Wrap(
-                                      spacing: 8,
-                                      runSpacing: 8,
+                                      spacing: 10,
+                                      runSpacing: 10,
                                       children: movie.genres.map((genre) {
                                         return Container(
                                           padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                            vertical: 5,
+                                            horizontal: 14,
+                                            vertical: 6,
                                           ),
                                           decoration: BoxDecoration(
                                             color: AppColors.surfaceLighter
@@ -457,12 +460,13 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                             style: AppTypography.labelSmall
                                                 .copyWith(
                                                   color: AppColors.textSecondary,
+                                                  fontSize: 12,
                                                 ),
                                           ),
                                         );
                                       }).toList(),
                                     ),
-                                    const SizedBox(height: 20),
+                                    const SizedBox(height: 28),
 
                                     // Rating & Stats Matrix
                                     Row(
@@ -473,14 +477,14 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                           Icons.star_rounded,
                                           AppColors.accentGold,
                                         ),
-                                        const SizedBox(width: 12),
+                                        const SizedBox(width: 14),
                                         _buildStatCard(
                                           'Reviews',
                                           '${(movie.voteCount / 1000).toStringAsFixed(1)}k+',
                                           Icons.people_alt_rounded,
                                           AppColors.accentCyan,
                                         ),
-                                        const SizedBox(width: 12),
+                                        const SizedBox(width: 14),
                                         _buildStatCard(
                                           'Director',
                                           movie.director,
@@ -489,46 +493,53 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 24),
+                                    const SizedBox(height: 34),
 
                                     // Synopsis Section
                                     Text(
                                       'Storyline',
-                                      style: AppTypography.titleMedium,
+                                      style: AppTypography.titleMedium.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                    const SizedBox(height: 8),
+                                    const SizedBox(height: 12),
                                     Text(
                                       movie.synopsis,
                                       style: AppTypography.bodyLarge.copyWith(
                                         color: AppColors.textSecondary,
-                                        height: 1.6,
+                                        height: 1.68,
+                                        fontSize: 15.5,
                                       ),
                                     ),
-                                    const SizedBox(height: 24),
+                                    const SizedBox(height: 36),
 
                                     // Cast Carousel
                                     if (movie.cast.isNotEmpty) ...[
                                       Text(
                                         'Cast & Crew',
-                                        style: AppTypography.titleMedium,
+                                        style: AppTypography.titleMedium.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                        ),
                                       ),
-                                      const SizedBox(height: 12),
+                                      const SizedBox(height: 16),
                                       SizedBox(
-                                        height: 98,
+                                        height: 118,
                                         child: ListView.builder(
                                           scrollDirection: Axis.horizontal,
                                           itemCount: movie.cast.length,
                                           itemBuilder: (context, index) {
                                             final cast = movie.cast[index];
                                             return Container(
-                                              width: 80,
+                                              width: 90,
                                               margin: const EdgeInsets.only(
-                                                right: 12,
+                                                right: 16,
                                               ),
                                               child: Column(
                                                 children: [
                                                   CircleAvatar(
-                                                    radius: 28,
+                                                    radius: 32,
                                                     backgroundImage:
                                                         NetworkImage(
                                                           cast.avatarUrl,
@@ -539,27 +550,37 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                                         .surfaceElevated,
                                                     child: const Icon(
                                                       Icons.person_rounded,
-                                                      size: 22,
+                                                      size: 24,
                                                       color: AppColors
                                                           .textSecondary,
                                                     ),
                                                   ),
-                                                  const SizedBox(height: 6),
+                                                  const SizedBox(height: 8),
                                                   Text(
                                                     cast.name,
                                                     style: AppTypography
                                                         .labelSmall
-                                                        .copyWith(fontSize: 10),
+                                                        .copyWith(
+                                                          fontSize: 11.5,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          color: Colors.white,
+                                                        ),
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
                                                     textAlign: TextAlign.center,
                                                   ),
+                                                  const SizedBox(height: 2),
                                                   Text(
                                                     cast.role,
                                                     style: AppTypography
                                                         .bodySmall
-                                                        .copyWith(fontSize: 9),
+                                                        .copyWith(
+                                                          fontSize: 10.5,
+                                                          color: AppColors
+                                                              .textTertiary,
+                                                        ),
                                                     maxLines: 1,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -571,7 +592,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                           },
                                         ),
                                       ),
-                                      const SizedBox(height: 24),
+                                      const SizedBox(height: 36),
                                     ],
 
                                     // User Reviews Section
@@ -583,7 +604,11 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                           Expanded(
                                             child: Text(
                                               'Audience Reviews',
-                                              style: AppTypography.titleMedium,
+                                              style: AppTypography.titleMedium
+                                                  .copyWith(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w700,
+                                                  ),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
@@ -594,19 +619,20 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                             style: AppTypography.bodySmall
                                                 .copyWith(
                                                   color: AppColors.primary,
+                                                  fontWeight: FontWeight.w600,
                                                 ),
                                           ),
                                         ],
                                       ),
-                                      const SizedBox(height: 12),
+                                      const SizedBox(height: 16),
                                       ...movie.reviews.map(
                                         (rev) => Padding(
                                           padding: const EdgeInsets.only(
-                                            bottom: 10,
+                                            bottom: 14,
                                           ),
                                           child: GlassCard(
                                             borderRadius: 18,
-                                            padding: const EdgeInsets.all(14),
+                                            padding: const EdgeInsets.all(16),
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -682,8 +708,12 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         ),
                       ),
                       if (isDesktop)
-                        const SliverToBoxAdapter(
-                          child: AppFooter(),
+                        const SliverFillRemaining(
+                          hasScrollBody: false,
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: AppFooter(),
+                          ),
                         ),
                     ],
                   ),
@@ -723,8 +753,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
   Widget _buildTabDivider() {
     return Container(
       width: 1.5,
-      height: 18,
-      margin: const EdgeInsets.symmetric(horizontal: 14),
+      height: 20,
+      margin: const EdgeInsets.symmetric(horizontal: 18),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.25),
         borderRadius: BorderRadius.circular(1),
@@ -741,26 +771,26 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     return Expanded(
       child: GlassCard(
         borderRadius: 18,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-            Icon(icon, size: 22, color: color),
-            const SizedBox(height: 6),
+            Icon(icon, size: 24, color: color),
+            const SizedBox(height: 8),
             Text(
               value,
               style: AppTypography.labelLarge.copyWith(
-                fontSize: 14,
+                fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
               ),
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 2),
+            const SizedBox(height: 4),
             Text(
               label,
               style: AppTypography.bodySmall.copyWith(
-                fontSize: 11,
+                fontSize: 12,
                 color: AppColors.textSecondary,
               ),
               maxLines: 1,

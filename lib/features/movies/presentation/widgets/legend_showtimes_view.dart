@@ -349,11 +349,11 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
             ),
           ),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 22),
 
         // ==================== DATE SWITCHER BAR ====================
         _buildDateSwitcher(),
-        const SizedBox(height: 14),
+        const SizedBox(height: 20),
 
         // ==================== FORMAT QUICK FILTER CHIPS ====================
         SingleChildScrollView(
@@ -361,22 +361,22 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
           child: Row(
             children: [
               _buildFormatFilterChip(null, 'All Formats'),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildFormatFilterChip(HallExperience.standard2D, '2D'),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildFormatFilterChip(HallExperience.imaxLaser, 'IMAX Laser'),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildFormatFilterChip(HallExperience.screenX, 'ScreenX'),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildFormatFilterChip(HallExperience.vipGold, 'VIP Gold'),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildFormatFilterChip(HallExperience.standard3D, '3D'),
-              const SizedBox(width: 8),
+              const SizedBox(width: 10),
               _buildFormatFilterChip(HallExperience.fourDX, '4DX'),
             ],
           ),
         ),
-        const SizedBox(height: 18),
+        const SizedBox(height: 26),
 
         // ==================== SHOWTIMES CONTAINER (MATCHING REFERENCE UI) ====================
         if (widget.isLoading)
@@ -454,7 +454,7 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
       onTap: () => widget.onExperienceFilterChanged(experience),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 180),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8.5),
         decoration: BoxDecoration(
           color: isSelected ? AppColors.primary.withValues(alpha: 0.16) : AppColors.surfaceLighter.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(16),
@@ -466,8 +466,8 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
         child: Text(
           label,
           style: TextStyle(
-            fontSize: 12,
-            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+            fontSize: 13,
+            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             color: isSelected ? AppColors.primaryLight : AppColors.textSecondary,
           ),
         ),
@@ -957,7 +957,6 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
     required bool isSelected,
   }) {
     final startTimeStr = Formatters.formatTime(st.startTime);
-    final endTimeStr = Formatters.formatTime(st.endTime);
 
     return MouseRegion(
       cursor: SystemMouseCursors.click,
@@ -966,8 +965,7 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 180),
           curve: Curves.easeOutCubic,
-          width: 144,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           decoration: BoxDecoration(
             gradient: isSelected
                 ? const LinearGradient(
@@ -987,7 +985,7 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: isSelected
                   ? Colors.white.withValues(alpha: 0.85)
@@ -1016,44 +1014,26 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
                     ),
                   ],
           ),
-          child: Column(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.access_time_filled_rounded,
-                    size: 13.5,
-                    color: isSelected ? Colors.white : AppColors.primaryLight,
-                  ),
-                  const SizedBox(width: 5),
-                  Text(
-                    startTimeStr,
-                    style: GoogleFonts.plusJakartaSans(
-                      color: isSelected
-                          ? Colors.white
-                          : Colors.white.withValues(alpha: 0.95),
-                      fontSize: 14.5,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 0.3,
-                    ),
-                  ),
-                ],
+              Icon(
+                Icons.access_time_filled_rounded,
+                size: 14,
+                color: isSelected ? Colors.white : AppColors.primaryLight,
               ),
-              const SizedBox(height: 3),
+              const SizedBox(width: 6),
               Text(
-                '~ $endTimeStr',
+                startTimeStr,
                 style: GoogleFonts.plusJakartaSans(
                   color: isSelected
-                      ? Colors.white.withValues(alpha: 0.85)
-                      : AppColors.textSecondary,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 0.1,
+                      ? Colors.white
+                      : Colors.white.withValues(alpha: 0.95),
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.3,
                 ),
               ),
             ],
@@ -1067,7 +1047,7 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
     if (widget.availableDates.isEmpty) return const SizedBox.shrink();
 
     return SizedBox(
-      height: 76,
+      height: 84,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: widget.availableDates.length,
@@ -1081,23 +1061,24 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
           final isToday = date.year == now.year &&
               date.month == now.month &&
               date.day == now.day;
-          final isTmrw = date.year == now.year &&
+          final isTmr = date.year == now.year &&
               date.month == now.month &&
               date.day == now.day + 1;
 
-          final dayLabel = isToday
-              ? 'Today'
-              : (isTmrw
-                  ? 'Tmrw'
-                  : Formatters.formatDate(date).split(',')[0]);
+          final dayLabel = (isToday
+              ? 'TODAY'
+              : (isTmr
+                  ? 'TMR'
+                  : Formatters.formatDate(date).split(',')[0]))
+              .toUpperCase();
 
           return Padding(
-            padding: const EdgeInsets.only(right: 12),
+            padding: const EdgeInsets.only(right: 14),
             child: GestureDetector(
               onTap: () => widget.onDateSelected(date),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                width: 72,
+                width: 76,
                 decoration: BoxDecoration(
                   color: isSelected
                       ? AppColors.primary.withValues(alpha: 0.12)
@@ -1124,14 +1105,14 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
                         letterSpacing: 0.2,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
                     Text(
                       '${date.day}',
                       style: GoogleFonts.plusJakartaSans(
-                        fontSize: 19,
+                        fontSize: 20,
                         fontWeight: isSelected ? FontWeight.w700 : FontWeight.w600,
                         color: Colors.white,
-                        height: 1.1,
+                        height: 1.15,
                       ),
                     ),
                   ],

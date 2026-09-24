@@ -173,7 +173,7 @@ class ResponsiveShell extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
         child: Container(
-          height: 76,
+          height: 88,
           decoration: BoxDecoration(
             color: AppColors.background.withValues(alpha: 0.72),
             boxShadow: [
@@ -194,80 +194,91 @@ class ResponsiveShell extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: maxContentWidth),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Row(
                   children: [
                     // Brand Logo (Clicking logo pops to root and selects Home)
                     InkWell(
                       onTap: () => navigateToTab(context, 0, onTabSelected),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(10),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 6,
+                          horizontal: 4,
                           vertical: 4,
                         ),
                         child: Image.asset(
                           'assets/logo/logo-sabay.png',
-                          height: 54,
+                          height: 56,
                           fit: BoxFit.contain,
                           errorBuilder: (context, error, stackTrace) =>
                               const Icon(
                                 Icons.local_fire_department_rounded,
-                                size: 36,
+                                size: 38,
                                 color: Colors.white,
                               ),
                         ),
                       ),
                     ),
-                    const SizedBox(width: 28),
+                    const SizedBox(width: 20),
 
                     // Desktop Navigation Tabs
-                    _buildDesktopTab(
-                      context,
-                      0,
-                      'Movies',
-                      Icons.movie_filter_rounded,
-                      currentIndex,
-                      onTabSelected,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildDesktopTab(
-                      context,
-                      1,
-                      'Food & Drinks',
-                      Icons.fastfood_rounded,
-                      currentIndex,
-                      onTabSelected,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildDesktopTab(
-                      context,
-                      2,
-                      'Promotion',
-                      Icons.local_offer_rounded,
-                      currentIndex,
-                      onTabSelected,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildDesktopTab(
-                      context,
-                      3,
-                      'My Tickets',
-                      Icons.local_activity_rounded,
-                      currentIndex,
-                      onTabSelected,
-                    ),
-                    const SizedBox(width: 6),
-                    _buildDesktopTab(
-                      context,
-                      4,
-                      'Cinemas',
-                      Icons.location_on_rounded,
-                      currentIndex,
-                      onTabSelected,
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildDesktopTab(
+                              context,
+                              0,
+                              'Movies',
+                              Icons.movie_filter_rounded,
+                              currentIndex,
+                              onTabSelected,
+                            ),
+                            const SizedBox(width: 6),
+                            _buildDesktopTab(
+                              context,
+                              1,
+                              'Food & Drinks',
+                              Icons.fastfood_rounded,
+                              currentIndex,
+                              onTabSelected,
+                            ),
+                            const SizedBox(width: 6),
+                            _buildDesktopTab(
+                              context,
+                              2,
+                              'Promotion',
+                              Icons.local_offer_rounded,
+                              currentIndex,
+                              onTabSelected,
+                            ),
+                            const SizedBox(width: 6),
+                            _buildDesktopTab(
+                              context,
+                              3,
+                              'My Tickets',
+                              Icons.local_activity_rounded,
+                              currentIndex,
+                              onTabSelected,
+                            ),
+                            const SizedBox(width: 6),
+                            _buildDesktopTab(
+                              context,
+                              4,
+                              'Cinemas',
+                              Icons.location_on_rounded,
+                              currentIndex,
+                              onTabSelected,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
 
-                    const Spacer(),
+                    const SizedBox(width: 14),
 
                     // Right-aligned Location Selector & Sign In Profile
                     Row(
@@ -277,7 +288,7 @@ class ResponsiveShell extends StatelessWidget {
                           trailing
                         else
                           _buildDefaultLocationTrailing(context),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: 10),
                         _buildAuthButton(context),
                       ],
                     ),
@@ -297,8 +308,8 @@ class ResponsiveShell extends StatelessWidget {
         if (state.isAuthenticated && state.currentUser != null) {
           final user = state.currentUser!;
           return GlassCard(
-            borderRadius: 18,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            borderRadius: 20,
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             onTap: () {
               _showUserMenu(context, user);
             },
@@ -306,13 +317,13 @@ class ResponsiveShell extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  radius: 13,
+                  radius: 15,
                   backgroundColor: AppColors.primary,
                   child: Text(
                     user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -321,7 +332,7 @@ class ResponsiveShell extends StatelessWidget {
                 Text(
                   user.name,
                   style: AppTypography.bodyMedium.copyWith(
-                    fontSize: 13,
+                    fontSize: 14,
                     color: Colors.white,
                     fontWeight: FontWeight.w600,
                   ),
@@ -329,7 +340,7 @@ class ResponsiveShell extends StatelessWidget {
                 const SizedBox(width: 4),
                 const Icon(
                   Icons.keyboard_arrow_down_rounded,
-                  size: 16,
+                  size: 18,
                   color: AppColors.textTertiary,
                 ),
               ],
@@ -341,18 +352,19 @@ class ResponsiveShell extends StatelessWidget {
           onPressed: () {
             SignInDialog.show(context);
           },
-          icon: const Icon(Icons.person_outline_rounded, size: 16),
+          icon: const Icon(Icons.person_outline_rounded, size: 18),
           label: const Text('Sign In'),
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
             ),
             elevation: 2,
-            textStyle: AppTypography.labelMedium.copyWith(
-              fontWeight: FontWeight.w600,
+            textStyle: AppTypography.titleSmall.copyWith(
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
             ),
           ),
         );
@@ -434,7 +446,7 @@ class ResponsiveShell extends StatelessWidget {
                   ? state.selectedLocationName.replaceFirst('Sabay Cinema ', '')
                   : 'All Cinemas');
         return GlassCard(
-          borderRadius: 18,
+          borderRadius: 20,
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           onTap: () {
             BranchSelectorModal.show(
@@ -458,7 +470,7 @@ class ResponsiveShell extends StatelessWidget {
                 size: 18,
                 color: AppColors.primary,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Text(
                 branchName,
                 style: AppTypography.bodyMedium.copyWith(
@@ -493,7 +505,7 @@ class ResponsiveShell extends StatelessWidget {
       onTap: () => navigateToTab(context, index, onTabSelected),
       borderRadius: BorderRadius.circular(12),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -132,11 +132,14 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                 final activeTickets = state.activeTickets.where((t) => !t.isUsed).toList();
                 final pastTickets = state.activeTickets.where((t) => t.isUsed).toList();
 
-                return SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(
+                return CustomScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Center(
                         child: ConstrainedBox(
                           constraints: const BoxConstraints(
                             maxWidth: ResponsiveShell.maxContentWidth,
@@ -293,12 +296,23 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                           ),
                         ),
                       ),
-
-                      // AppFooter is at the bottom of the page, completely outside the tab swipe!
-                      const SizedBox(height: 48),
-                      const AppFooter(),
                     ],
                   ),
+                ),
+                const SliverFillRemaining(
+                      hasScrollBody: false,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(height: 48),
+                            AppFooter(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               },
             ),

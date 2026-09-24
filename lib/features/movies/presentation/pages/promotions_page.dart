@@ -327,12 +327,11 @@ class _PromotionsPageState extends State<PromotionsPage> {
             onRefresh: () async {
               context.read<MovieBloc>().add(LoadMoviesInitialEvent());
             },
-            child: SingleChildScrollView(
+            child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.only(bottom: isDesktop ? 0 : 80),
-              child: Column(
-                children: [
-                  Center(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Center(
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(
                         maxWidth: ResponsiveShell.maxContentWidth,
@@ -519,9 +518,15 @@ class _PromotionsPageState extends State<PromotionsPage> {
                       ),
                     ),
                   ),
-                  const AppFooter(),
-                ],
-              ),
+                ),
+                const SliverFillRemaining(
+                  hasScrollBody: false,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AppFooter(),
+                  ),
+                ),
+              ],
             ),
           );
         },
