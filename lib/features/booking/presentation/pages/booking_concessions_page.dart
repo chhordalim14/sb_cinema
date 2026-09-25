@@ -13,6 +13,7 @@ import '../../../movies/domain/entities/showtime.dart';
 import '../bloc/booking_bloc.dart';
 import '../bloc/booking_event.dart';
 import '../bloc/booking_state.dart';
+import '../widgets/booking_progress_bar.dart';
 import 'checkout_summary_page.dart';
 
 class BookingConcessionsPage extends StatefulWidget {
@@ -67,7 +68,7 @@ class _BookingConcessionsPageState extends State<BookingConcessionsPage> {
       appBar: isDesktop
           ? null
           : AppBar(
-              backgroundColor: AppColors.surfaceGlass,
+              backgroundColor: AppColors.headerBackground,
               elevation: 0,
               centerTitle: true,
               title: Text(
@@ -108,6 +109,18 @@ class _BookingConcessionsPageState extends State<BookingConcessionsPage> {
           if (isDesktop) ...[
             ResponsiveShell.buildDesktopHeader(context, currentIndex: 0),
             _buildDesktopSubHeader(context),
+          ] else ...[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+              child: BookingProgressBar(
+                currentStep: BookingStep.orderReview,
+                onStepTapped: (step) {
+                  if (step == BookingStep.chooseSeat || step == BookingStep.showtime) {
+                    Navigator.of(context).pop();
+                  }
+                },
+              ),
+            ),
           ],
           Expanded(
             child: BlocBuilder<BookingBloc, BookingState>(
@@ -233,32 +246,13 @@ class _BookingConcessionsPageState extends State<BookingConcessionsPage> {
                   ),
                 ),
                 const Spacer(),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.fastfood_rounded,
-                        size: 16,
-                        color: AppColors.primary,
-                      ),
-                      const SizedBox(width: 6),
-                      Text(
-                        'Step 3: Food & Drinks',
-                        style: AppTypography.labelSmall.copyWith(
-                          color: AppColors.primary,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 12.5,
-                        ),
-                      ),
-                    ],
-                  ),
+                BookingProgressBar(
+                  currentStep: BookingStep.orderReview,
+                  onStepTapped: (step) {
+                    if (step == BookingStep.chooseSeat || step == BookingStep.showtime) {
+                      Navigator.of(context).pop();
+                    }
+                  },
                 ),
               ],
             ),

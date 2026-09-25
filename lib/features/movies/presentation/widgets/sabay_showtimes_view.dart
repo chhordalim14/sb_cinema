@@ -6,7 +6,7 @@ import '../../../../core/utils/formatters.dart';
 import '../../../locations/domain/entities/cinema_location.dart';
 import '../../domain/entities/showtime.dart';
 
-class LegendShowtimesView extends StatefulWidget {
+class SabayShowtimesView extends StatefulWidget {
   final List<Showtime> showtimes;
   final List<CinemaLocation> locations;
   final Showtime? selectedShowtime;
@@ -19,9 +19,9 @@ class LegendShowtimesView extends StatefulWidget {
   final ValueChanged<String?> onLocationChanged;
   final ValueChanged<HallExperience?> onExperienceFilterChanged;
   final ValueChanged<Showtime> onShowtimeSelected;
-  final VoidCallback onProceedToSeats;
+  final VoidCallback? onProceedToSeats;
 
-  const LegendShowtimesView({
+  const SabayShowtimesView({
     super.key,
     required this.showtimes,
     required this.locations,
@@ -35,14 +35,14 @@ class LegendShowtimesView extends StatefulWidget {
     required this.onLocationChanged,
     required this.onExperienceFilterChanged,
     required this.onShowtimeSelected,
-    required this.onProceedToSeats,
+    this.onProceedToSeats,
   });
 
   @override
-  State<LegendShowtimesView> createState() => _LegendShowtimesViewState();
+  State<SabayShowtimesView> createState() => _SabayShowtimesViewState();
 }
 
-class _LegendShowtimesViewState extends State<LegendShowtimesView> {
+class _SabayShowtimesViewState extends State<SabayShowtimesView> {
   final Map<String, bool> _collapsedLocations = {};
 
   void _toggleLocationCollapse(String locationName, bool defaultCollapsed) {
@@ -495,9 +495,9 @@ class _LegendShowtimesViewState extends State<LegendShowtimesView> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xFF23080D), // Deep wine burgundy matching reference UI
-            Color(0xFF140508),
-            Color(0xFF0C0305),
+            Color(0xFF240A18), // Deep Sabay logo plum / violet tone
+            Color(0xFF160614),
+            Color(0xFF0E040D),
           ],
         ),
         borderRadius: BorderRadius.circular(22),

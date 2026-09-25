@@ -1,48 +1,47 @@
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_typography.dart';
 
 class CurvedCinemaScreen extends StatelessWidget {
   final String hallFormat;
   final double? maxWidth;
+  final Color? color;
+  final bool showTitle;
 
   const CurvedCinemaScreen({
     super.key,
     this.hallFormat = 'IMAX LASER SCREEN',
     this.maxWidth,
+    this.color,
+    this.showTitle = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final screenColor = color ?? AppColors.logoRed;
+
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxWidth: maxWidth ?? 740),
+        constraints: BoxConstraints(maxWidth: maxWidth ?? 640),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               CustomPaint(
-                size: const Size(double.infinity, 52),
-                painter: _ScreenPainter(),
+                size: const Size(double.infinity, 36),
+                painter: _ScreenPainter(glowColor: screenColor),
               ),
               const SizedBox(height: 6),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.accentCyan.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.accentCyan.withValues(alpha: 0.3)),
-                ),
-                child: Text(
-                  hallFormat.toUpperCase(),
-                  style: AppTypography.labelSmall.copyWith(
-                    color: AppColors.accentCyan,
-                    letterSpacing: 2.2,
-                    fontSize: 10,
+              if (showTitle)
+                Text(
+                  'SCREEN',
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.9),
+                    letterSpacing: 4.0,
                     fontWeight: FontWeight.w800,
+                    fontSize: 11.5,
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -52,6 +51,10 @@ class CurvedCinemaScreen extends StatelessWidget {
 }
 
 class _ScreenPainter extends CustomPainter {
+  final Color glowColor;
+
+  _ScreenPainter({required this.glowColor});
+
   @override
   void paint(Canvas canvas, Size size) {
     final width = size.width;
@@ -59,15 +62,15 @@ class _ScreenPainter extends CustomPainter {
 
     // Curved screen path
     final path = Path();
-    path.moveTo(width * 0.08, height * 0.82);
-    path.quadraticBezierTo(width * 0.5, height * 0.08, width * 0.92, height * 0.82);
+    path.moveTo(width * 0.06, height * 0.85);
+    path.quadraticBezierTo(width * 0.5, height * 0.12, width * 0.94, height * 0.85);
 
     // Luminous Screen Glow Gradient
     final glowPaint = Paint()
       ..shader = LinearGradient(
         colors: [
-          AppColors.accentCyan.withValues(alpha: 0.35),
-          AppColors.accentCyan.withValues(alpha: 0.06),
+          glowColor.withValues(alpha: 0.35),
+          glowColor.withValues(alpha: 0.05),
           Colors.transparent,
         ],
         begin: Alignment.topCenter,
@@ -76,8 +79,8 @@ class _ScreenPainter extends CustomPainter {
       ..style = PaintingStyle.fill;
 
     final glowAreaPath = Path()
-      ..moveTo(width * 0.08, height * 0.82)
-      ..quadraticBezierTo(width * 0.5, height * 0.08, width * 0.92, height * 0.82)
+      ..moveTo(width * 0.06, height * 0.85)
+      ..quadraticBezierTo(width * 0.5, height * 0.12, width * 0.94, height * 0.85)
       ..lineTo(width * 0.96, height)
       ..lineTo(width * 0.04, height)
       ..close();
@@ -86,14 +89,14 @@ class _ScreenPainter extends CustomPainter {
 
     // Screen curve stroke
     final strokePaint = Paint()
-      ..color = AppColors.accentCyan
-      ..strokeWidth = 3.5
+      ..color = glowColor
+      ..strokeWidth = 3.0
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
     // Drop shadow glow behind stroke
     final shadowPaint = Paint()
-      ..color = AppColors.accentCyan.withValues(alpha: 0.6)
+      ..color = glowColor.withValues(alpha: 0.6)
       ..strokeWidth = 7.0
       ..style = PaintingStyle.stroke
       ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
@@ -103,5 +106,6 @@ class _ScreenPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant _ScreenPainter oldDelegate) =>
+      oldDelegate.glowColor != glowColor;
 }

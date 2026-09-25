@@ -11,6 +11,7 @@ import '../../../auth/presentation/cubit/auth_cubit.dart';
 import '../bloc/booking_bloc.dart';
 import '../bloc/booking_event.dart';
 import '../bloc/booking_state.dart';
+import '../widgets/booking_progress_bar.dart';
 import '../widgets/payment_qr_dialog.dart';
 import 'ticket_pass_page.dart';
 
@@ -125,6 +126,16 @@ class _CheckoutSummaryPageState extends State<CheckoutSummaryPage> {
           if (isDesktop) ...[
             ResponsiveShell.buildDesktopHeader(context, currentIndex: 0),
             _buildDesktopSubHeader(context),
+          ] else ...[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+              child: BookingProgressBar(
+                currentStep: BookingStep.checkout,
+                onStepTapped: (step) {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
           ],
           Expanded(
             child: BlocBuilder<BookingBloc, BookingState>(
@@ -189,7 +200,7 @@ class _CheckoutSummaryPageState extends State<CheckoutSummaryPage> {
 
   PreferredSizeWidget _buildMobileAppBar(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.surfaceGlass,
+      backgroundColor: AppColors.headerBackground,
       elevation: 0,
       centerTitle: true,
       title: Text(
@@ -252,6 +263,13 @@ class _CheckoutSummaryPageState extends State<CheckoutSummaryPage> {
                     color: Colors.white,
                     fontSize: 18,
                   ),
+                ),
+                const Spacer(),
+                BookingProgressBar(
+                  currentStep: BookingStep.checkout,
+                  onStepTapped: (step) {
+                    Navigator.of(context).pop();
+                  },
                 ),
               ],
             ),

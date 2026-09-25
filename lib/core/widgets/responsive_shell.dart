@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/auth/presentation/cubit/auth_cubit.dart';
 import '../../features/auth/presentation/cubit/auth_state.dart';
+import '../../features/auth/presentation/pages/profile_page.dart';
 import '../../features/auth/presentation/widgets/sign_in_dialog.dart';
 import '../../features/movies/presentation/bloc/movie_bloc.dart';
 import '../../features/movies/presentation/bloc/movie_event.dart';
@@ -51,7 +52,7 @@ class ResponsiveShell extends StatelessWidget {
       appBar: appBar,
       body: Stack(
         children: [
-          // 1. Signature Sabay Cinema continuous atmospheric backdrop
+          // 1. Signature Sabay Cinema continuous atmospheric backdrop using Logo Colors
           Positioned.fill(child: Container(color: AppColors.background)),
           Positioned.fill(
             child: Container(
@@ -60,19 +61,40 @@ class ResponsiveShell extends StatelessWidget {
                   begin: Alignment.topLeft,
                   end: const Alignment(0.85, 0.70),
                   colors: [
-                    AppColors.burgundy.withValues(alpha: 0.75), // #5C0612
-                    const Color(0xFF38030B).withValues(alpha: 0.40),
-                    const Color(0xFF1F0206).withValues(alpha: 0.15),
+                    AppColors.logoRed.withValues(alpha: 0.42),
+                    AppColors.logoPurple.withValues(alpha: 0.26),
+                    AppColors.logoMagenta.withValues(alpha: 0.10),
                     Colors.transparent,
                   ],
-                  stops: const [0.0, 0.30, 0.58, 0.88],
+                  stops: const [0.0, 0.28, 0.58, 0.90],
                 ),
               ),
             ),
           ),
+          // Top-Left Orb: Sabay Logo Flame Red warm cinematic glow
           Positioned(
-            top: 220,
-            left: -80,
+            top: 180,
+            left: -90,
+            child: Container(
+              width: 500,
+              height: 500,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: RadialGradient(
+                  colors: [
+                    AppColors.logoRed.withValues(alpha: 0.28),
+                    AppColors.logoMagenta.withValues(alpha: 0.08),
+                    Colors.transparent,
+                  ],
+                  stops: const [0.0, 0.45, 1.0],
+                ),
+              ),
+            ),
+          ),
+          // Upper-Right Orb: Sabay Logo Ribbon Violet / Purple ambient glow
+          Positioned(
+            top: 260,
+            right: -110,
             child: Container(
               width: 480,
               height: 480,
@@ -80,32 +102,36 @@ class ResponsiveShell extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.burgundy.withValues(alpha: 0.35),
-                    const Color(0xFF38030B).withValues(alpha: 0.10),
+                    AppColors.logoPurple.withValues(alpha: 0.22),
+                    AppColors.logoPurpleDeep.withValues(alpha: 0.06),
                     Colors.transparent,
                   ],
+                  stops: const [0.0, 0.45, 1.0],
                 ),
               ),
             ),
           ),
+          // Mid-Left Accent Orb: Sabay Logo Flame Sun Amber warmth
           Positioned(
-            top: 360,
-            right: -100,
+            top: 560,
+            left: -80,
             child: Container(
-              width: 450,
-              height: 450,
+              width: 420,
+              height: 420,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.08),
-                    const Color(0xFF5C0612).withValues(alpha: 0.04),
+                    AppColors.logoAmber.withValues(alpha: 0.10),
+                    AppColors.logoOrange.withValues(alpha: 0.03),
                     Colors.transparent,
                   ],
+                  stops: const [0.0, 0.40, 1.0],
                 ),
               ),
             ),
           ),
+          // Lower Ambient Orb: Deep Logo Violet & Crimson grounding
           Positioned(
             bottom: 60,
             left: -60,
@@ -116,9 +142,11 @@ class ResponsiveShell extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.burgundy.withValues(alpha: 0.18),
+                    AppColors.logoPurpleDeep.withValues(alpha: 0.16),
+                    AppColors.logoRed.withValues(alpha: 0.04),
                     Colors.transparent,
                   ],
+                  stops: const [0.0, 0.50, 1.0],
                 ),
               ),
             ),
@@ -175,17 +203,18 @@ class ResponsiveShell extends StatelessWidget {
         child: Container(
           height: 88,
           decoration: BoxDecoration(
-            color: AppColors.background.withValues(alpha: 0.72),
+            color: AppColors.headerBackground,
+            gradient: AppColors.headerGradient,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.25),
-                blurRadius: 16,
-                offset: const Offset(0, 2),
+                color: Colors.black.withValues(alpha: 0.50),
+                blurRadius: 20,
+                offset: const Offset(0, 4),
               ),
             ],
             border: Border(
               bottom: BorderSide(
-                color: Colors.white.withValues(alpha: 0.08),
+                color: Colors.white.withValues(alpha: 0.12),
                 width: 1,
               ),
             ),
@@ -311,7 +340,11 @@ class ResponsiveShell extends StatelessWidget {
             borderRadius: 20,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
             onTap: () {
-              _showUserMenu(context, user);
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ProfilePage(),
+                ),
+              );
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -337,10 +370,10 @@ class ResponsiveShell extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 6),
                 const Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  size: 18,
+                  Icons.arrow_forward_ios_rounded,
+                  size: 12,
                   color: AppColors.textTertiary,
                 ),
               ],
@@ -369,69 +402,6 @@ class ResponsiveShell extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  static void _showUserMenu(BuildContext context, user) {
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: const Color(0xFF140306),
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
-      builder: (bottomSheetContext) => Container(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 22,
-                  backgroundColor: AppColors.primary,
-                  child: Text(
-                    user.name.isNotEmpty ? user.name[0].toUpperCase() : 'U',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        user.name,
-                        style: AppTypography.titleMedium.copyWith(color: Colors.white),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        user.displayIdentifier,
-                        style: AppTypography.bodySmall.copyWith(color: AppColors.textSecondary),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            const Divider(color: AppColors.glassBorderSubtle),
-            const SizedBox(height: 10),
-            ListTile(
-              leading: const Icon(Icons.logout_rounded, color: Colors.redAccent),
-              title: const Text('Sign Out', style: TextStyle(color: Colors.redAccent)),
-              onTap: () {
-                Navigator.of(bottomSheetContext).pop();
-                context.read<AuthCubit>().signOut();
-              },
-            ),
-          ],
-        ),
-      ),
     );
   }
 

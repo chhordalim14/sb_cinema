@@ -36,31 +36,24 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveGradient =
+        gradient ?? (backgroundColor == null ? AppColors.cardGradient : null);
+    final effectiveColor =
+        effectiveGradient == null ? (backgroundColor ?? AppColors.surfaceGlass) : null;
+    final effectiveBorderColor = borderColor ?? AppColors.glassBorderSubtle;
+
     Widget cardContent = Container(
       width: width,
       height: height,
       padding: padding ?? const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: gradient == null ? (backgroundColor ?? AppColors.surface.withValues(alpha: 0.72)) : null,
-        gradient: gradient,
+        color: effectiveColor,
+        gradient: effectiveGradient,
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: borderColor ?? AppColors.glassBorderSubtle,
+          color: effectiveBorderColor,
           width: borderWidth,
         ),
-        boxShadow: customShadows ??
-            [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.35),
-                blurRadius: 24,
-                offset: const Offset(0, 8),
-              ),
-              BoxShadow(
-                color: Colors.white.withValues(alpha: 0.02),
-                blurRadius: 1,
-                offset: const Offset(0, 1),
-              ),
-            ],
       ),
       child: child,
     );
@@ -74,6 +67,27 @@ class GlassCard extends StatelessWidget {
         ),
       );
     }
+
+    // Outer shadow wrapper to prevent blur clipping
+    cardContent = Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(borderRadius),
+        boxShadow: customShadows ??
+            [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.45),
+                blurRadius: 20,
+                offset: const Offset(0, 6),
+              ),
+              BoxShadow(
+                color: Colors.white.withValues(alpha: 0.03),
+                blurRadius: 1,
+                offset: const Offset(0, 1),
+              ),
+            ],
+      ),
+      child: cardContent,
+    );
 
     if (margin != null) {
       cardContent = Padding(padding: margin!, child: cardContent);

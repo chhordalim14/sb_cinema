@@ -21,7 +21,7 @@ class TicketPassPage extends StatelessWidget {
       appBar: isDesktop
           ? null
           : AppBar(
-              backgroundColor: AppColors.surfaceGlass,
+              backgroundColor: AppColors.headerBackground,
               elevation: 0,
               automaticallyImplyLeading: false,
               title: Text(

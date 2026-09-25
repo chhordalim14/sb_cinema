@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_typography.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/app_footer.dart';
-import '../../../../core/widgets/glass_card.dart';
 import '../../../../core/widgets/responsive_shell.dart';
 import '../../../booking/domain/entities/ticket.dart';
 import '../../../booking/presentation/bloc/booking_bloc.dart';
@@ -89,7 +87,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          // Ambient soft background glow
+          // Ambient soft background glow using Sabay logo palette
           Positioned(
             top: -120,
             left: -80,
@@ -100,7 +98,8 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.burgundy.withValues(alpha: 0.35),
+                    AppColors.logoPurple.withValues(alpha: 0.25),
+                    AppColors.logoMagenta.withValues(alpha: 0.08),
                     Colors.transparent,
                   ],
                 ),
@@ -117,7 +116,8 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.12),
+                    AppColors.logoAmber.withValues(alpha: 0.12),
+                    AppColors.logoRed.withValues(alpha: 0.04),
                     Colors.transparent,
                   ],
                 ),
@@ -448,7 +448,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: tickets.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 16),
+                separatorBuilder: (_, _) => const SizedBox(height: 16),
                 itemBuilder: (context, index) {
                   final ticket = tickets[index];
                   return _buildModernTicketCard(ticket);

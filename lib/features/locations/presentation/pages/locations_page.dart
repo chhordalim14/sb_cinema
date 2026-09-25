@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../core/constants/app_colors.dart';
-import '../../../../core/constants/app_typography.dart';
 import '../../../../core/di/injection_container.dart';
 import '../../../../core/widgets/app_footer.dart';
 import '../../../../core/widgets/glass_card.dart';
@@ -75,42 +74,6 @@ class _LocationsPageState extends State<LocationsPage> {
     _loadData();
   }
 
-  void _selectCinemaBranch(BuildContext context, CinemaLocation loc) {
-    context.read<MovieBloc>().add(
-          SelectLocationBranchEvent(
-            locationId: loc.id,
-            locationName: loc.name,
-          ),
-        );
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Row(
-          children: [
-            const Icon(Icons.check_circle_rounded, color: AppColors.primary, size: 18),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Text(
-                'Selected ${loc.name} as your cinema',
-                style: GoogleFonts.plusJakartaSans(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 13,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ],
-        ),
-        backgroundColor: AppColors.surfaceElevated,
-        behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-          side: const BorderSide(color: AppColors.glassBorderSubtle),
-        ),
-        duration: const Duration(seconds: 2),
-      ),
-    );
-  }
-
   void _browseShowtimesForCinema(BuildContext context, CinemaLocation loc) {
     context.read<MovieBloc>().add(
           SelectLocationBranchEvent(
@@ -129,7 +92,7 @@ class _LocationsPageState extends State<LocationsPage> {
       backgroundColor: Colors.transparent,
       body: Stack(
         children: [
-          // 1. Soft atmospheric background glows
+          // 1. Soft atmospheric background glows using Sabay logo palette
           Positioned(
             top: -60,
             left: -80,
@@ -140,7 +103,8 @@ class _LocationsPageState extends State<LocationsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.burgundy.withValues(alpha: 0.28),
+                    AppColors.logoRed.withValues(alpha: 0.25),
+                    AppColors.logoPurple.withValues(alpha: 0.08),
                     Colors.transparent,
                   ],
                 ),
@@ -157,7 +121,8 @@ class _LocationsPageState extends State<LocationsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.10),
+                    AppColors.logoPurple.withValues(alpha: 0.18),
+                    AppColors.logoAmber.withValues(alpha: 0.05),
                     Colors.transparent,
                   ],
                 ),

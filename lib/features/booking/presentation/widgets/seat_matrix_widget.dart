@@ -38,13 +38,37 @@ class _SeatMatrixWidgetState extends State<SeatMatrixWidget> {
   static final BorderRadius _vipRadius = BorderRadius.circular(12);
   static final BorderRadius _twinRadius = BorderRadius.circular(12);
 
-  static final Border _availableBorder = Border.all(
+  static final Border _standardAvailableBorder = Border.all(
     color: AppColors.seatAvailableBorder,
     width: 1.2,
   );
 
-  static final Border _twinBorder = Border.all(
-    color: AppColors.seatTwin,
+  static final Border _standardSelectedBorder = Border.all(
+    color: AppColors.primaryLight,
+    width: 1.2,
+  );
+
+  static const Border _reservedBorder = Border.fromBorderSide(
+    BorderSide(color: Colors.transparent, width: 1.2),
+  );
+
+  static final Border _vipAvailableBorder = Border.all(
+    color: AppColors.accentGold.withValues(alpha: 0.6),
+    width: 1.2,
+  );
+
+  static final Border _vipSelectedBorder = Border.all(
+    color: AppColors.primaryLight,
+    width: 1.2,
+  );
+
+  static final Border _twinAvailableBorder = Border.all(
+    color: AppColors.seatTwin.withValues(alpha: 0.6),
+    width: 1.2,
+  );
+
+  static final Border _twinSelectedBorder = Border.all(
+    color: AppColors.primaryLight,
     width: 1.2,
   );
 
@@ -61,7 +85,7 @@ class _SeatMatrixWidgetState extends State<SeatMatrixWidget> {
   static final List<BoxShadow> _vipAvailableShadow = [
     BoxShadow(
       color: AppColors.accentGold.withValues(alpha: 0.35),
-      blurRadius: 10,
+      blurRadius: 8,
       offset: const Offset(0, 2),
     ),
   ];
@@ -129,28 +153,32 @@ class _SeatMatrixWidgetState extends State<SeatMatrixWidget> {
     final selectedSeatIds = {for (final s in widget.selectedSeats) s.id};
 
     return RepaintBoundary(
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        physics: const ClampingScrollPhysics(),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          physics: const ClampingScrollPhysics(),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: _cachedRows.map((group) {
-                return _buildRow(group.rowName, group.seats, selectedSeatIds);
-              }).toList(),
-            ),
-          ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: _cachedRows.asMap().entries.map((entry) {
+            final isLast = entry.key == _cachedRows.length - 1;
+            return _buildRow(
+              entry.value.rowName,
+              entry.value.seats,
+              selectedSeatIds,
+              isLast: isLast,
+            );
+          }).toList(),
         ),
       ),
     );
   }
 
-  Widget _buildRow(String rowName, List<Seat> seats, Set<String> selectedSeatIds) {
+  Widget _buildRow(
+    String rowName,
+    List<Seat> seats,
+    Set<String> selectedSeatIds, {
+    bool isLast = false,
+  }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: isLast ? 0 : 10),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -280,40 +308,50 @@ class _StandardSeatWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        width: 32,
-        height: 34,
-        decoration: BoxDecoration(
-          gradient: isSelected ? AppColors.primaryGradient : null,
-          color: isSelected
-              ? null
-              : (isReserved ? AppColors.seatReserved : AppColors.seatAvailable),
-          borderRadius: _SeatMatrixWidgetState._standardRadius,
-          border: isSelected || isReserved ? null : _SeatMatrixWidgetState._availableBorder,
-          boxShadow: isSelected ? _SeatMatrixWidgetState._selectedShadow : null,
+      child: AnimatedScale(
+        scale: isSelected ? 1.08 : 1.0,
+        duration: const Duration(milliseconds: 140),
+        curve: Curves.easeOutBack,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 140),
+          curve: Curves.easeInOut,
+          width: 32,
+          height: 34,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? AppColors.primary
+                : (isReserved ? AppColors.seatReserved : AppColors.seatAvailable),
+            borderRadius: _SeatMatrixWidgetState._standardRadius,
+            border: isReserved
+                ? _SeatMatrixWidgetState._reservedBorder
+                : (isSelected
+                    ? _SeatMatrixWidgetState._standardSelectedBorder
+                    : _SeatMatrixWidgetState._standardAvailableBorder),
+            boxShadow: isSelected ? _SeatMatrixWidgetState._selectedShadow : const [],
+          ),
+          alignment: Alignment.center,
+          child: isReserved
+              ? const Icon(Icons.close_rounded, size: 12, color: AppColors.textTertiary)
+              : (seat.type == SeatType.wheelchair
+                  ? Icon(
+                      Icons.accessible_rounded,
+                      size: 15,
+                      color: isSelected ? Colors.white : AppColors.accentCyan,
+                    )
+                  : Text(
+                      '${seat.number}',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w700,
+                        color: isSelected ? Colors.white : AppColors.textSecondary,
+                      ),
+                    )),
         ),
-        alignment: Alignment.center,
-        child: isReserved
-            ? const Icon(Icons.close_rounded, size: 12, color: AppColors.textTertiary)
-            : (seat.type == SeatType.wheelchair
-                ? Icon(
-                    Icons.accessible_rounded,
-                    size: 15,
-                    color: isSelected ? Colors.white : AppColors.accentCyan,
-                  )
-                : Text(
-                    '${seat.number}',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      color: isSelected ? Colors.white : AppColors.textSecondary,
-                    ),
-                  )),
       ),
     );
   }
 }
+
 
 class _VipSeatWidget extends StatelessWidget {
   final Seat seat;
@@ -334,37 +372,47 @@ class _VipSeatWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        width: 38,
-        height: 38,
-        decoration: BoxDecoration(
-          gradient: isSelected
-              ? AppColors.primaryGradient
-              : (isReserved ? null : AppColors.vipGradient),
-          color: isReserved ? AppColors.seatReserved : null,
-          borderRadius: _SeatMatrixWidgetState._vipRadius,
-          boxShadow: isSelected
-              ? _SeatMatrixWidgetState._selectedShadow
-              : (!isReserved ? _SeatMatrixWidgetState._vipAvailableShadow : null),
-        ),
-        alignment: Alignment.center,
-        child: isReserved
-            ? const Icon(Icons.close_rounded, size: 14, color: AppColors.textTertiary)
-            : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.star_rounded, size: 12, color: Colors.white),
-                  Text(
-                    '${seat.number}',
-                    style: const TextStyle(
-                      fontSize: 9,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
+      child: AnimatedScale(
+        scale: isSelected ? 1.08 : 1.0,
+        duration: const Duration(milliseconds: 140),
+        curve: Curves.easeOutBack,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 140),
+          curve: Curves.easeInOut,
+          width: 38,
+          height: 38,
+          decoration: BoxDecoration(
+            color: isReserved
+                ? AppColors.seatReserved
+                : (isSelected ? AppColors.primary : AppColors.accentGold),
+            borderRadius: _SeatMatrixWidgetState._vipRadius,
+            border: isReserved
+                ? _SeatMatrixWidgetState._reservedBorder
+                : (isSelected
+                    ? _SeatMatrixWidgetState._vipSelectedBorder
+                    : _SeatMatrixWidgetState._vipAvailableBorder),
+            boxShadow: isSelected
+                ? _SeatMatrixWidgetState._selectedShadow
+                : (!isReserved ? _SeatMatrixWidgetState._vipAvailableShadow : const []),
+          ),
+          alignment: Alignment.center,
+          child: isReserved
+              ? const Icon(Icons.close_rounded, size: 14, color: AppColors.textTertiary)
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.star_rounded, size: 12, color: Colors.white),
+                    Text(
+                      '${seat.number}',
+                      style: const TextStyle(
+                        fontSize: 9,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -389,47 +437,56 @@ class _TwinBedSeatWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        width: 78,
-        height: 38,
-        decoration: BoxDecoration(
-          gradient: isSelected ? AppColors.primaryGradient : null,
-          color: isSelected
-              ? null
-              : (isReserved ? AppColors.seatReserved : _SeatMatrixWidgetState._twinAvailableColor),
-          borderRadius: _SeatMatrixWidgetState._twinRadius,
-          border: isSelected || isReserved ? null : _SeatMatrixWidgetState._twinBorder,
-          boxShadow: isSelected ? _SeatMatrixWidgetState._twinSelectedShadow : null,
-        ),
-        alignment: Alignment.center,
-        child: isReserved
-            ? const Icon(Icons.close_rounded, size: 14, color: AppColors.textTertiary)
-            : FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.favorite_rounded,
-                        size: 13,
-                        color: isSelected ? Colors.white : AppColors.seatTwin,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Twin Bed',
-                        style: TextStyle(
-                          fontSize: 10,
-                          fontWeight: FontWeight.w700,
+      child: AnimatedScale(
+        scale: isSelected ? 1.05 : 1.0,
+        duration: const Duration(milliseconds: 140),
+        curve: Curves.easeOutBack,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 140),
+          curve: Curves.easeInOut,
+          width: 78,
+          height: 38,
+          decoration: BoxDecoration(
+            color: isSelected
+                ? AppColors.primary
+                : (isReserved ? AppColors.seatReserved : _SeatMatrixWidgetState._twinAvailableColor),
+            borderRadius: _SeatMatrixWidgetState._twinRadius,
+            border: isReserved
+                ? _SeatMatrixWidgetState._reservedBorder
+                : (isSelected
+                    ? _SeatMatrixWidgetState._twinSelectedBorder
+                    : _SeatMatrixWidgetState._twinAvailableBorder),
+            boxShadow: isSelected ? _SeatMatrixWidgetState._twinSelectedShadow : const [],
+          ),
+          alignment: Alignment.center,
+          child: isReserved
+              ? const Icon(Icons.close_rounded, size: 14, color: AppColors.textTertiary)
+              : FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.favorite_rounded,
+                          size: 13,
                           color: isSelected ? Colors.white : AppColors.seatTwin,
                         ),
-                      ),
-                    ],
+                        const SizedBox(width: 4),
+                        Text(
+                          'Twin Bed',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w700,
+                            color: isSelected ? Colors.white : AppColors.seatTwin,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+        ),
       ),
     );
   }

@@ -19,7 +19,7 @@ import '../../domain/entities/showtime.dart';
 import '../../domain/usecases/get_showtimes.dart';
 import '../bloc/movie_bloc.dart';
 import '../bloc/movie_event.dart';
-import '../widgets/legend_showtimes_view.dart';
+import '../widgets/sabay_showtimes_view.dart';
 import '../widgets/trailer_modal.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -171,7 +171,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
-          // Background ambient soft glow orbs (adds Sabay Cinema burgundy and gold atmospheric depth)
+          // Background ambient soft glow orbs (Sabay logo flame red, ribbon violet and warm amber atmospheric depth)
           Positioned(
             top: -140,
             left: -120,
@@ -182,8 +182,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.burgundy.withValues(alpha: 0.35),
-                    AppColors.burgundy.withValues(alpha: 0.08),
+                    AppColors.logoRed.withValues(alpha: 0.28),
+                    AppColors.logoMagenta.withValues(alpha: 0.08),
                     Colors.transparent,
                   ],
                 ),
@@ -200,8 +200,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.primary.withValues(alpha: 0.12),
-                    AppColors.primary.withValues(alpha: 0.02),
+                    AppColors.logoPurple.withValues(alpha: 0.22),
+                    AppColors.logoPurpleDeep.withValues(alpha: 0.05),
                     Colors.transparent,
                   ],
                 ),
@@ -218,7 +218,8 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
                   colors: [
-                    AppColors.accentCyan.withValues(alpha: 0.06),
+                    AppColors.logoAmber.withValues(alpha: 0.12),
+                    AppColors.logoOrange.withValues(alpha: 0.03),
                     Colors.transparent,
                   ],
                 ),
@@ -242,7 +243,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                         SliverAppBar(
                           expandedHeight: 380,
                           pinned: true,
-                          backgroundColor: AppColors.background,
+                          backgroundColor: AppColors.headerBackground,
                           leading: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: GlassCard(
@@ -339,7 +340,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                                   // Tab Content View
                                   if (_selectedSegment == 0) ...[
                                     // ==================== SHOWTIME TAB ====================
-                                    LegendShowtimesView(
+                                    SabayShowtimesView(
                                       showtimes: _showtimes,
                                       locations: _locations,
                                       selectedShowtime: _selectedShowtime,
@@ -807,9 +808,9 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
     return Container(
       height: 60,
       decoration: const BoxDecoration(
-        color: AppColors.surfaceGlass,
+        color: AppColors.headerBackground,
         border: Border(
-          bottom: BorderSide(color: AppColors.glassBorderSubtle, width: 1),
+          bottom: BorderSide(color: AppColors.headerBorder, width: 1),
         ),
       ),
       child: Center(

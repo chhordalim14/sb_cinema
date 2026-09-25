@@ -219,7 +219,7 @@ class MovieRemoteDataSourceImpl implements MovieRemoteDataSource {
     const MovieModel(
       id: 'mov_dune_2',
       title: 'Dune: Part Two',
-      originalTitle: 'Dune: Part Two (Warner Bros. / Legendary)',
+      originalTitle: 'Dune: Part Two (Warner Bros.)',
       synopsis:
           'Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the universe, he endeavors to prevent a terrible future.',
       rating: 8.2,

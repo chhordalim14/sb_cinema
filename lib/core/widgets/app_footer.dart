@@ -601,7 +601,7 @@ class AppFooter extends StatelessWidget {
             Image.asset(
               'assets/logo/logo-sabay.png',
               height: 26,
-              errorBuilder: (_, __, ___) => const Icon(Icons.movie_rounded, color: AppColors.primary),
+              errorBuilder: (_, _, _) => const Icon(Icons.movie_rounded, color: AppColors.primary),
             ),
             const SizedBox(width: 12),
             const Text(

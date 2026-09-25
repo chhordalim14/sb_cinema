@@ -537,17 +537,18 @@ class _HomePageState extends State<HomePage> {
         filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.background.withValues(alpha: 0.76),
+            color: AppColors.headerBackground,
+            gradient: AppColors.headerGradient,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.2),
-                blurRadius: 12,
-                offset: const Offset(0, 2),
+                color: Colors.black.withValues(alpha: 0.45),
+                blurRadius: 16,
+                offset: const Offset(0, 3),
               ),
             ],
             border: Border(
               bottom: BorderSide(
-                color: Colors.white.withValues(alpha: 0.08),
+                color: Colors.white.withValues(alpha: 0.12),
                 width: 1,
               ),
             ),

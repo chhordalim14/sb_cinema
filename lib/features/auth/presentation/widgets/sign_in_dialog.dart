@@ -97,7 +97,7 @@ class _SignInDialogState extends State<SignInDialog> {
             constraints: const BoxConstraints(maxWidth: 440),
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF140306), // Deep cinema dark burgundy
+                color: const Color(0xFF160614), // Deep cinema dark logo plum tone
                 borderRadius: BorderRadius.circular(24),
                 border: Border.all(
                   color: AppColors.glassBorder.withValues(alpha: 0.3),

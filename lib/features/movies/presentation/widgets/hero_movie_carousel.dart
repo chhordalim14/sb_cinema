@@ -56,7 +56,10 @@ class _HeroMovieCarouselState extends State<HeroMovieCarousel> {
     _autoScrollTimer?.cancel();
     if (_itemCount <= 1 || !_isPlaying) return;
     _autoScrollTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if (!mounted || _itemCount == 0 || !_pageController.hasClients || !_isPlaying) {
+      if (!mounted ||
+          _itemCount == 0 ||
+          !_pageController.hasClients ||
+          !_isPlaying) {
         return;
       }
       _pageController.nextPage(
@@ -82,8 +85,8 @@ class _HeroMovieCarouselState extends State<HeroMovieCarousel> {
     final carouselHeight = width >= 1200
         ? (width * 0.28).clamp(340.0, 480.0)
         : (width >= 800
-            ? (width * 0.40).clamp(260.0, 360.0)
-            : (width * 0.52).clamp(195.0, 280.0));
+              ? (width * 0.40).clamp(260.0, 360.0)
+              : (width * 0.52).clamp(195.0, 280.0));
 
     return MouseRegion(
       onEnter: (_) => _autoScrollTimer?.cancel(),
@@ -105,8 +108,9 @@ class _HeroMovieCarouselState extends State<HeroMovieCarousel> {
                 setState(() => _currentPage = index % _itemCount);
                 if (_isPlaying) _startAutoScroll();
               },
-              itemCount:
-                  _itemCount > 1 ? _itemCount * _kLoopMultiplier : _itemCount,
+              itemCount: _itemCount > 1
+                  ? _itemCount * _kLoopMultiplier
+                  : _itemCount,
               itemBuilder: (context, index) {
                 final actualIndex = index % _itemCount;
 
@@ -127,10 +131,7 @@ class _HeroMovieCarouselState extends State<HeroMovieCarousel> {
                       scale = isCenter ? 1.0 : 0.90;
                     }
 
-                    return Transform.scale(
-                      scale: scale,
-                      child: child,
-                    );
+                    return Transform.scale(scale: scale, child: child);
                   },
                   child: GestureDetector(
                     onTap: () {
@@ -139,10 +140,14 @@ class _HeroMovieCarouselState extends State<HeroMovieCarousel> {
                           : _initialPage;
                       if (index == currentActual) {
                         if (_hasSlides) {
-                          widget.onSlideSelected?.call(widget.slides![actualIndex]);
+                          widget.onSlideSelected?.call(
+                            widget.slides![actualIndex],
+                          );
                         } else if (widget.movies != null &&
                             widget.movies!.isNotEmpty) {
-                          widget.onMovieSelected?.call(widget.movies![actualIndex]);
+                          widget.onMovieSelected?.call(
+                            widget.movies![actualIndex],
+                          );
                         }
                       } else {
                         // Tapping a peeking neighbor smoothly slides it into center
@@ -163,10 +168,7 @@ class _HeroMovieCarouselState extends State<HeroMovieCarousel> {
             ),
 
             // 2. Slide Indicator Capsule at Bottom Center
-            Positioned(
-              bottom: 12,
-              child: _buildSlideIndicators(),
-            ),
+            Positioned(bottom: 12, child: _buildSlideIndicators()),
           ],
         ),
       ),

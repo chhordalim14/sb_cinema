@@ -7,19 +7,20 @@ class AppColors {
 
   // Backgrounds & Surface (Matching exact sabaycinema.com color palette: .bg-major #0f0f0f)
   static const Color background = Color(0xFF0F0F0F);      // Exact .bg-major from sabaycinema.com
-  static const Color headerBackground = Color(0xCC0F0F0F);// Translucent dark header matching page background
+  static const Color headerBackground = Color(0xFF141417);// Distinct solid cinema dark header background
+  static const Color headerBackgroundGlass = Color(0xF2141417);// 95% opacity frosted cinema header
   static const Color footerBackground = Color(0xFF0F0F0F);// Seamless footer background matching page background
-  static const Color footerGlow = Color(0x265C0612);      // Subtle ambient burgundy glow stop
+  static const Color footerGlow = Color(0x228C3692);      // Subtle ambient logo purple glow stop
   static const Color headerRimCyan = Color(0x18FFFFFF);   // Subtle sleek glass rim line
-  static const Color headerBorder = Color(0x18FFFFFF);    // Subtle sleek glass rim line
-  static const Color surface = Color(0xFF161616);         // Neutral Cinema Dark Surface
-  static const Color surfaceLighter = Color(0xFF1F1F1F);  // Elevated Card Surface
-  static const Color surfaceElevated = Color(0xFF282828); // Raised Card Highlight
-  static const Color surfaceGlass = Color(0xB80F0F0F);    // Translucent Frosted Glass Surface matching cinema canvas
+  static const Color headerBorder = Color(0x24FFFFFF);    // Defined sleek header border
+  static const Color surface = Color(0xFF18151E);         // Clean Obsidian Cinema Dark Surface
+  static const Color surfaceLighter = Color(0xFF221E2B);  // Elevated Card Surface
+  static const Color surfaceElevated = Color(0xFF2B2636); // Raised Card Highlight
+  static const Color surfaceGlass = Color(0xD917141E);    // Deep luxury obsidian glass surface
 
   // Soft Glassmorphic Borders & Highlights
-  static const Color glassBorder = Color(0x2EFFFFFF);      // 18% White border
-  static const Color glassBorderSubtle = Color(0x18FFFFFF);// 9.5% White border
+  static const Color glassBorder = Color(0x38FFFFFF);      // 22% White border
+  static const Color glassBorderSubtle = Color(0x1FFFFFFF);// 12% Crisp White border
   static const Color glassFill = Color(0x0FFFFFFF);        // 6% White Fill
   static const Color glassFillActive = Color(0x1FFFFFFF);  // 12% White Fill
   static const Color glassHighlight = Color(0x33FFFFFF);   // Top-edge highlight
@@ -38,10 +39,23 @@ class AppColors {
   static const Color burgundy = Color(0xFF5C0612);       // Exact Sabay Crimson/Burgundy from sabaycinema.com banner gradient
   static const Color burgundyDark = Color(0xFF38030B);
 
+  // ============================================================================
+  // Official Sabay Brand Logo Palette (Extracted directly from logo-sabay.png)
+  // ============================================================================
+  static const Color logoRed = Color(0xFFD52128);          // Sabay Flame Scarlet Red (#D52128)
+  static const Color logoRedBright = Color(0xFFE5262C);    // Vibrant Flame Red Highlight (#E5262C)
+  static const Color logoPurple = Color(0xFF8C3692);       // Signature Sabay Ribbon Violet / Purple (#8C3692)
+  static const Color logoPurpleDeep = Color(0xFF551458);   // Deep Ambient Ribbon Plum
+  static const Color logoMagenta = Color(0xFFBD2D5A);      // Mid Ribbon Transition Magenta (#BD2D5A)
+  static const Color logoOrange = Color(0xFFF58220);       // Radiant Flame Orange (#F58220)
+  static const Color logoAmber = Color(0xFFF9DB0C);        // Bright Flame Sun Amber (#F9DB0C)
+  static const Color logoAmberWarm = Color(0xFFF5B313);    // Warm Gold Amber
+
   // Cinema Technology & Status Accents
   static const Color accentCyan = Color(0xFF00E5FF);     // IMAX Laser Cyan
   static const Color accentCyanGlow = Color(0x4D00E5FF);
   static const Color accentGold = Color(0xFFDDAC45);     // VIP Gold Tier
+  static const Color accentAmber = Color(0xFFF5B313);    // Warm Amber Accent
   static const Color accentEmerald = Color(0xFF28A745);  // Available / Success (Bootstrap green from old site)
   static const Color accentRose = Color(0xFFFF2A85);     // ScreenX / Special Event
   static const Color success = accentEmerald;            // Available / Success status color
@@ -70,7 +84,7 @@ class AppColors {
   );
 
   static const LinearGradient secondaryGradient = LinearGradient(
-    colors: [Color(0xFFE31B23), Color(0xFFFF5252)],
+    colors: [Color(0xFFD52128), Color(0xFFFF5252)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
@@ -81,16 +95,30 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
+  // Signature Atmospheric Background Gradient using Sabay Logo colors
   static const LinearGradient sabayAtmosphereGradient = LinearGradient(
     begin: Alignment.topLeft,
-    end: Alignment(0.8, 0.7),
+    end: Alignment(0.85, 0.70),
     colors: [
-      Color(0xFF5C0612), // Signature Sabay Crimson
-      Color(0xFF40040E),
-      Color(0xFF220308),
-      Color(0xFF0F0F0F), // .bg-major
+      Color(0xA6D52128), // 65% Sabay Logo Flame Red
+      Color(0x668C3692), // 40% Sabay Logo Ribbon Violet
+      Color(0x28BD2D5A), // 16% Logo Magenta Shadow
+      Colors.transparent,
     ],
-    stops: [0.0, 0.28, 0.58, 0.88],
+    stops: [0.0, 0.32, 0.64, 0.90],
+  );
+
+  // Logo Brand Flame Ribbon Gradient (Direct multi-stop representation of logo-sabay.png)
+  static const LinearGradient logoFlameGradient = LinearGradient(
+    colors: [
+      Color(0xFFF9DB0C), // Flame Sun Amber
+      Color(0xFFF58220), // Flame Orange
+      Color(0xFFD52128), // Flame Scarlet Red
+      Color(0xFFBD2D5A), // Ribbon Magenta
+      Color(0xFF8C3692), // Ribbon Violet / Purple
+    ],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
   );
 
   static const LinearGradient burgundyGradient = LinearGradient(
@@ -99,21 +127,43 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
+  static const LinearGradient headerGradient = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Color(0xFF1B1B20), // Subtle elevated highlight on top edge
+      Color(0xFF131316), // Rich deep cinema header surface
+    ],
+  );
+
   static const LinearGradient footerGradient = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
       Colors.transparent,
-      Color(0x55111113),
+      Color(0x1A8C3692),
       Color(0xFF09090A),
     ],
-    stops: [0.0, 0.22, 1.0],
+    stops: [0.0, 0.25, 1.0],
   );
 
   static const LinearGradient cardGradient = LinearGradient(
-    colors: [Color(0xFF1C1C1F), Color(0xFF121214)],
-    begin: Alignment.topCenter,
-    end: Alignment.bottomCenter,
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xEB201A2B), // Sleek obsidian top-left with subtle warm cinema undertone
+      Color(0xE014111C), // Deep cinema dark base
+    ],
+  );
+
+  static const LinearGradient bannerCardGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xF224162B), // Deep plum/violet luxury cinema glass
+      Color(0xD9191122),
+      Color(0xBF120D1A),
+    ],
   );
 
   static const LinearGradient glassHighlightGradient = LinearGradient(

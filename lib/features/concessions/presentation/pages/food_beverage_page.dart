@@ -425,6 +425,8 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
     return GlassCard(
       borderRadius: 24,
       padding: const EdgeInsets.all(22),
+      gradient: AppColors.bannerCardGradient,
+      borderColor: AppColors.logoPurple.withValues(alpha: 0.35),
       child: Row(
         children: [
           Expanded(
@@ -436,21 +438,21 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.15),
+                        color: AppColors.logoAmber.withValues(alpha: 0.14),
                         borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.primary.withValues(alpha: 0.3)),
+                        border: Border.all(color: AppColors.logoAmber.withValues(alpha: 0.40)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.fastfood_rounded, size: 13, color: AppColors.primaryLight),
+                          const Icon(Icons.fastfood_rounded, size: 13, color: AppColors.primary),
                           const SizedBox(width: 6),
                           Text(
                             'SABAY CONCESSIONS',
                             style: GoogleFonts.plusJakartaSans(
                               fontSize: 10,
                               fontWeight: FontWeight.w800,
-                              color: AppColors.primaryLight,
+                              color: AppColors.primary,
                               letterSpacing: 0.8,
                             ),
                           ),
@@ -497,9 +499,9 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                   child: Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.06),
+                      color: Colors.white.withValues(alpha: 0.07),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.glassBorderSubtle),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.12)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -526,22 +528,27 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
           const SizedBox(width: 16),
           // Popcorn / Beverage decorative visual
           Container(
-            width: 88,
-            height: 88,
+            width: 90,
+            height: 90,
             decoration: BoxDecoration(
               gradient: RadialGradient(
                 colors: [
-                  AppColors.primary.withValues(alpha: 0.25),
+                  AppColors.logoAmber.withValues(alpha: 0.22),
+                  AppColors.logoOrange.withValues(alpha: 0.05),
                   Colors.transparent,
                 ],
               ),
               shape: BoxShape.circle,
+              border: Border.all(
+                color: AppColors.logoAmber.withValues(alpha: 0.20),
+                width: 1,
+              ),
             ),
             child: const Center(
               child: Icon(
                 Icons.local_cafe_rounded,
                 size: 46,
-                color: AppColors.primaryLight,
+                color: AppColors.primaryVariant,
               ),
             ),
           ),
@@ -575,13 +582,22 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? AppColors.primary.withValues(alpha: 0.16)
-                      : AppColors.surfaceLighter.withValues(alpha: 0.5),
+                      ? AppColors.primary.withValues(alpha: 0.22)
+                      : const Color(0x66181422),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: isSelected ? AppColors.primary.withValues(alpha: 0.45) : AppColors.glassBorderSubtle,
-                    width: 1.0,
+                    color: isSelected ? AppColors.primary : Colors.white.withValues(alpha: 0.10),
+                    width: isSelected ? 1.4 : 1.0,
                   ),
+                  boxShadow: isSelected
+                      ? [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.25),
+                            blurRadius: 10,
+                            offset: const Offset(0, 2),
+                          ),
+                        ]
+                      : null,
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -589,14 +605,14 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                     Icon(
                       cat['icon'] as IconData,
                       size: 16,
-                      color: isSelected ? AppColors.primaryLight : AppColors.textSecondary,
+                      color: isSelected ? AppColors.primary : AppColors.textSecondary,
                     ),
                     const SizedBox(width: 8),
                     Text(
                       cat['label'] as String,
                       style: TextStyle(
                         fontSize: 12.5,
-                        fontWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
+                        fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                         color: isSelected ? Colors.white : AppColors.textSecondary,
                       ),
                     ),
@@ -619,7 +635,7 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: items.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 12),
+        separatorBuilder: (_, _) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
           return _buildItemCard(items[index], isWide: false);
         },
@@ -649,23 +665,38 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
     return GlassCard(
       borderRadius: 20,
       padding: const EdgeInsets.all(14),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xF21F1B2B), // Deep obsidian plum-charcoal
+          Color(0xEB14111D), // Dark base seamlessly blending with background
+        ],
+      ),
+      borderColor: Colors.white.withValues(alpha: 0.10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Item Image with rounded corners & badges
           Stack(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: SizedBox(
-                  width: isWide ? 110 : 96,
-                  height: isWide ? 110 : 96,
-                  child: Image.network(
-                    item.imageUrl,
-                    fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Container(
-                      color: AppColors.surfaceLighter,
-                      child: const Icon(Icons.fastfood_rounded, color: AppColors.textSecondary),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: SizedBox(
+                    width: isWide ? 110 : 96,
+                    height: isWide ? 110 : 96,
+                    child: Image.network(
+                      item.imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (_, _, _) => Container(
+                        color: AppColors.surfaceElevated,
+                        child: const Icon(Icons.fastfood_rounded, color: AppColors.textSecondary),
+                      ),
                     ),
                   ),
                 ),
@@ -726,10 +757,10 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    if (item.calories != null) ...[
+                    if (item.calories.isNotEmpty) ...[
                       const SizedBox(height: 4),
                       Text(
-                        item.calories!,
+                        item.calories,
                         style: AppTypography.bodySmall.copyWith(
                           color: AppColors.textTertiary,
                           fontSize: 10,
@@ -747,9 +778,9 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                     Text(
                       Formatters.formatCurrency(item.price),
                       style: const TextStyle(
-                        color: AppColors.primaryLight,
+                        color: AppColors.primary,
                         fontWeight: FontWeight.w800,
-                        fontSize: 15.5,
+                        fontSize: 16.0,
                       ),
                     ),
 
@@ -759,23 +790,33 @@ class _FoodBeveragePageState extends State<FoodBeveragePage> {
                         onTap: () => _updateQuantity(item, 1),
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6.5),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withValues(alpha: 0.15),
+                            color: AppColors.primary.withValues(alpha: 0.18),
                             borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: AppColors.primary.withValues(alpha: 0.4)),
+                            border: Border.all(
+                              color: AppColors.primary.withValues(alpha: 0.65),
+                              width: 1.2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.15),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
                           child: const Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(Icons.add_rounded, size: 14, color: AppColors.primaryLight),
+                              Icon(Icons.add_rounded, size: 14, color: AppColors.primary),
                               SizedBox(width: 4),
                               Text(
                                 'Add',
                                 style: TextStyle(
-                                  color: AppColors.primaryLight,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12,
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w800,
+                                  fontSize: 12.5,
                                 ),
                               ),
                             ],

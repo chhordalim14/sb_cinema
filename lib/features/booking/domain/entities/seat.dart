@@ -1,10 +1,13 @@
 import 'package:equatable/equatable.dart';
 
 enum SeatType {
-  standard,
-  vipCouch,
-  twinBed,
-  wheelchair,
+  standard('Standard'),
+  vipCouch('VIP Couch'),
+  twinBed('Twin Bed'),
+  wheelchair('Accessible');
+
+  final String displayName;
+  const SeatType(this.displayName);
 }
 
 enum SeatStatus {

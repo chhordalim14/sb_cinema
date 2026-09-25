@@ -21,14 +21,14 @@ void main() {
       final slides = await ServiceLocator.getBannerSlides(NoParams());
       expect(slides, isNotEmpty);
       expect(slides.any((s) => s.title.contains('Avengers')), isTrue);
-      expect(slides.any((s) => s.title.contains('Resident Evil')), isTrue);
+      expect(slides.any((s) => s.title.contains('GANZBERG')), isTrue);
       expect(slides.any((s) => s.title.contains('ABA')), isTrue);
     });
 
     test('GetNowShowingMovies returns non-empty list of active movies', () async {
       final movies = await ServiceLocator.getNowShowingMovies(const GetNowShowingMoviesParams());
       expect(movies, isNotEmpty);
-      expect(movies.first.title, contains('Resident Evil'));
+      expect(movies.first.title, contains('Deadpool & Wolverine'));
     });
 
     test('GetUpcomingMovies returns future releases', () async {

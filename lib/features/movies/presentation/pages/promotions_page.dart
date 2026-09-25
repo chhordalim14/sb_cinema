@@ -306,7 +306,7 @@ class _PromotionsPageState extends State<PromotionsPage> {
       appBar: isDesktop
           ? null
           : AppBar(
-              backgroundColor: AppColors.background.withValues(alpha: 0.72),
+              backgroundColor: AppColors.headerBackground,
               elevation: 0,
               centerTitle: true,
               title: Text(
@@ -632,10 +632,10 @@ class _PromotionsPageState extends State<PromotionsPage> {
                           vertical: 5,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.burgundy.withValues(alpha: 0.85),
+                          color: AppColors.logoRed.withValues(alpha: 0.88),
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: AppColors.primary.withValues(alpha: 0.6),
+                            color: AppColors.logoAmber.withValues(alpha: 0.7),
                           ),
                           boxShadow: [
                             BoxShadow(
